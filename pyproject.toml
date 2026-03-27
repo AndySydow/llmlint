@@ -2,10 +2,55 @@
 name = "llmlint"
 version = "0.1.0"
 description = "A lightweight, embeddable, open-source Python library that continuously validates LLM outputs in production against declarative quality rules. Not a platform. Not a dashboard. A library."
-requires-python = ">=3.14"
-dependencies = []
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "jsonschema>=4.0",
+    "sqlalchemy>=2.0",
+    "click>=8.0",
+    "rich>=13.0",
+]
 authors = [
-  {name = "Andy Sydow", email = "info@derdatenarchitekt.de"},
+    {name = "Andy Sydow", email = "info@derdatenarchitekt.de"},
 ]
 license = "MIT"
 license-files = ["LICEN[CS]E*", "AUTHORS.md"]
+
+[project.optional-dependencies]
+embeddings = ["sentence-transformers>=2.0"]
+tokens = ["tiktoken>=0.5"]
+langdetect = ["langdetect>=1.0"]
+postgres = ["psycopg2-binary>=2.9"]
+all = [
+    "sentence-transformers>=2.0",
+    "tiktoken>=0.5",
+    "langdetect>=1.0",
+    "psycopg2-binary>=2.9",
+]
+
+[project.scripts]
+llmlint = "llmlint.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.4",
+    "mypy>=1.10",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--tb=short"
