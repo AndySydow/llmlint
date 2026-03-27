@@ -1,0 +1,52 @@
+checks:
+  - type: json_valid
+    name: output_is_valid_json
+    severity: fail
+    strip_markdown_fences: true
+
+  - type: schema
+    name: response_matches_api_schema
+    severity: fail
+    json_schema:
+      type: object
+      required: [answer, confidence]
+      properties:
+        answer:
+          type: string
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+
+  - type: length
+    name: not_too_short
+    severity: warn
+    min_chars: 20
+
+  - type: length
+    name: not_too_long
+    severity: fail
+    max_chars: 10000
+
+  - type: pattern
+    name: no_pii_leakage
+    severity: fail
+    must_not_match:
+      - '\b\d{3}-\d{2}-\d{4}\b'   # SSN
+      - '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'  # email
+
+  - type: pattern
+    name: includes_citation
+    severity: warn
+    must_match:
+      - '\[source\]|\[citation\]|https?://'
+
+  - type: refusal
+    name: detect_refusal
+    severity: warn
+    phrases:
+      - "I cannot"
+      - "I'm unable"
+      - "I can't help"
+      - "As an AI language model"
+    threshold: 1
