@@ -1,8 +1,11 @@
 [project]
 name = "llmlint"
 version = "0.1.0"
-description = "Add your description here"
+description = "A lightweight, embeddable, open-source Python library that continuously validates LLM outputs in production against declarative quality rules. Not a platform. Not a dashboard. A library."
 requires-python = ">=3.14"
 dependencies = []
+authors = [
+  {name = "Andy Sydow", email = "info@derdatenarchitekt.de"},
+]
 license = "MIT"
 license-files = ["LICEN[CS]E*", "AUTHORS.md"]
