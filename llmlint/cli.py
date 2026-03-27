@@ -1,4 +1,8 @@
-"""llmlint CLI entry point."""
+"""llmlint CLI entry point.
+
+Provides the ``llmlint`` command group.  Sub-commands (``check``,
+``report``, ``init``) are planned for M2.
+"""
 
 from __future__ import annotations
 

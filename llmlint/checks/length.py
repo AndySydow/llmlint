@@ -1,4 +1,8 @@
-"""Character and token length bounds check."""
+"""Character and token length bounds check.
+
+Character counting is always available.  Token counting requires the
+optional ``tiktoken`` dependency (install via ``llmlint[tokens]``).
+"""
 
 from __future__ import annotations
 
@@ -7,7 +11,7 @@ from llmlint.config import LengthCheckConfig
 
 
 def run(config: LengthCheckConfig, output: str, **context: object) -> CheckResult:
-    """Check that output length is within configured bounds."""
+    """Check that *output* length is within the configured character/token bounds."""
     char_count = len(output)
 
     if config.min_chars is not None and char_count < config.min_chars:

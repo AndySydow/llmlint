@@ -1,9 +1,5 @@
 """Tests for the public API (llmlint.init, check, watch, load)."""
 
-import threading
-
-import pytest
-
 import llmlint
 from llmlint.config import LengthCheckConfig
 

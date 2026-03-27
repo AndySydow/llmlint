@@ -1,4 +1,9 @@
-"""JSON parseability check with markdown fence stripping."""
+"""JSON parseability check with optional markdown fence stripping.
+
+LLMs commonly wrap JSON in markdown code fences (````` ```json … ``` `````).
+When ``strip_markdown_fences`` is enabled (the default), those fences are
+removed before parsing.
+"""
 
 from __future__ import annotations
 
@@ -12,19 +17,15 @@ _FENCE_PATTERN = re.compile(r"^```(?:json|JSON)?\s*\n?(.*?)\n?\s*```$", re.DOTAL
 
 
 def _strip_fences(text: str) -> str:
-    """Strip markdown code fences from text."""
+    """Remove surrounding markdown code fences if present."""
     text = text.strip()
     match = _FENCE_PATTERN.match(text)
-    if match:
-        return match.group(1)
-    return text
+    return match.group(1) if match else text
 
 
 def run(config: JsonValidCheckConfig, output: str, **context: object) -> CheckResult:
-    """Check that output is valid JSON, optionally stripping markdown fences."""
-    text = output
-    if config.strip_markdown_fences:
-        text = _strip_fences(text)
+    """Check that *output* is parseable JSON, optionally stripping markdown fences."""
+    text = _strip_fences(output) if config.strip_markdown_fences else output
 
     try:
         json.loads(text)

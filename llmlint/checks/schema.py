@@ -1,4 +1,8 @@
-"""JSON Schema validation check."""
+"""JSON Schema validation check.
+
+Parses the output as JSON, then validates it against the user-supplied
+JSON Schema using the ``jsonschema`` library.
+"""
 
 from __future__ import annotations
 
@@ -11,7 +15,7 @@ from llmlint.config import SchemaCheckConfig
 
 
 def run(config: SchemaCheckConfig, output: str, **context: object) -> CheckResult:
-    """Validate that output is valid JSON conforming to the given schema."""
+    """Validate that *output* is valid JSON conforming to *config.json_schema*."""
     try:
         data = json.loads(output)
     except (json.JSONDecodeError, TypeError) as e:

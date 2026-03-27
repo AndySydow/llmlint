@@ -1,4 +1,8 @@
-"""Regex match and blocklist check."""
+"""Regex match and blocklist check.
+
+Uses ``re.search`` so patterns can match anywhere in the output (not
+just from the start).
+"""
 
 from __future__ import annotations
 
@@ -9,7 +13,7 @@ from llmlint.config import PatternCheckConfig
 
 
 def run(config: PatternCheckConfig, output: str, **context: object) -> CheckResult:
-    """Check output against must_match and must_not_match regex patterns."""
+    """Check *output* against required (``must_match``) and blocked (``must_not_match``) patterns."""
     for pattern in config.must_match:
         if not re.search(pattern, output):
             return CheckResult(
